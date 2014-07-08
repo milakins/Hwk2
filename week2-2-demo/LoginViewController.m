@@ -56,8 +56,23 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    //[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
+
     [self.logButton setEnabled:NO];
     [self.userTextField becomeFirstResponder];
+    
+    // hide status bar
+    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)])
+    {
+        [self prefersStatusBarHidden];
+        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+    }
+    else
+    {
+        // iOS 6
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    }
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -159,6 +174,8 @@
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Incorrect Password" message:@"The password you entered is incorrect.  Please try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alertView show];
             // clear contents of pwd input field
+            [self.logButton setTitle:@"Log In" forState:UIControlStateNormal];
+
             self.pwdTextField.text = @"";
             [self.pwdTextField becomeFirstResponder];
     }

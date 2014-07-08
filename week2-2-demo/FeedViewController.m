@@ -32,7 +32,18 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.feedScrollView.contentSize = CGSizeMake(320, 1000);
-    
+
+    // hide status bar
+    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)])
+    {
+        [self prefersStatusBarHidden];
+        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+    }
+    else
+    {
+        // iOS 6
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    }
 }
 
 - (void)didReceiveMemoryWarning
